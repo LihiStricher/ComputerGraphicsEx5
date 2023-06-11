@@ -157,21 +157,39 @@ const m_back_Net_trans = translate_matrix(0, -0.5, -1.5)
 back_net.applyMatrix4(m_back_Net_trans)
 
 // create right side net
-// Create the geometry
-// const geometry = new THREE.BufferGeometry();
-// const vertices = new Float32Array([
-// 	0, 1, 0,  // Vertex 1
-// 	-1, -1, 0, // Vertex 2
-// 	1, -1, 0   // Vertex 3
-// ]);
-// geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-// const material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3 });
-// const triangle = new THREE.Mesh(geometry, material);
+const right_triangle_geometry = new THREE.BufferGeometry();
+const right_triangle_vertices = new Float32Array([
+	1, 1, 0,  // Vertex 1
+	-2, -2, 0, // Vertex 2
+	1, -2, 0   // Vertex 3
+]);
+right_triangle_geometry.setAttribute('position', new THREE.BufferAttribute(right_triangle_vertices, 3));
+const right_material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3 ,side: THREE.DoubleSide});
+const right_triangle = new THREE.Mesh(right_triangle_geometry, right_material);
+const m_rotation_triangle_right = rotation_matrix('y', -Math.PI / 2);
+right_triangle.applyMatrix4(m_rotation_triangle_right);
+const m_trans_triangle_right = translate_matrix(6.258, 0, -1);
+right_triangle.applyMatrix4(m_trans_triangle_right);
 
-goal.add(back_net);
+// create left side net
+const left_triangle_geometry = new THREE.BufferGeometry();
+const left_triangle_vertices = new Float32Array([
+	1, 1, 0,  // Vertex 1
+	-2, -2, 0, // Vertex 2
+	1, -2, 0   // Vertex 3
+]);
+left_triangle_geometry.setAttribute('position', new THREE.BufferAttribute(left_triangle_vertices, 3));
+const left_material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3 ,side: THREE.DoubleSide,});
+const left_triangle = new THREE.Mesh(left_triangle_geometry, left_material);
+const m_rotation_triangle_left = rotation_matrix('y', -Math.PI / 2);
+left_triangle.applyMatrix4(m_rotation_triangle_left);
+const m_trans_triangle_left = translate_matrix(-6.258, 0, -1);
+left_triangle.applyMatrix4(m_trans_triangle_left);
+
+goal.add(back_net, right_triangle, left_triangle);
 
 // create ball
-const ballGeometry = new THREE.SphereGeometry( 3/16, 32, 32);
+const ballGeometry = new THREE.SphereGeometry(3/16, 32, 32);
 const ballMaterial = new THREE.MeshBasicMaterial({
 	color: 0x000000, wireframe: false,});
 const ball = new THREE.Mesh( ballGeometry, ballMaterial );
