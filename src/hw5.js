@@ -62,7 +62,7 @@ function scale_matrix(x, y, z){
 const goal = new THREE.Group();
 
 // create crossbar
-const cross_bar_geometry = new THREE.CylinderGeometry(0.06, 0.06, 12.6);
+const cross_bar_geometry = new THREE.CylinderGeometry(0.06, 0.06, 9);
 const cross_bar_material = new THREE.MeshBasicMaterial({ color: 0xffffff });
 const cross_bar = new THREE.Mesh(cross_bar_geometry, cross_bar_material);
 const m_rotation_cross = rotation_matrix('z', Math.PI / 2);
@@ -77,7 +77,7 @@ goal.add(cross_bar);
 const right_post_geometry = new THREE.CylinderGeometry(0.06, 0.06, 3);
 const right_post_geometry_meterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
 const right_post = new THREE.Mesh(right_post_geometry, right_post_geometry_meterial);
-const m_trans_post_right = translate_matrix(6.258, -0.5, 0)
+const m_trans_post_right = translate_matrix(4.5, -0.5, 0)
 right_post.applyMatrix4(m_trans_post_right)
 
 // create torus for the edge of the right goal post
@@ -86,14 +86,14 @@ const right_post_torus_material = new THREE.MeshBasicMaterial({ color: 0xffffff 
 const right_post_torus = new THREE.Mesh(right_post_torus_geometry, right_post_torus_material);
 const m_rotation_torus_right = rotation_matrix('x', Math.PI / 2);
 right_post_torus.applyMatrix4(m_rotation_torus_right);
-const m_trans_torus_right = translate_matrix(6.258, -2, 0)
+const m_trans_torus_right = translate_matrix(4.5, -2, 0)
 right_post_torus.applyMatrix4(m_trans_torus_right)
 
 // create left goal post
 const left_post_geometry = new THREE.CylinderGeometry(0.06, 0.06, 3);
 const left_post_geometry_meterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
 const left_post = new THREE.Mesh(left_post_geometry, left_post_geometry_meterial);
-const m_trans_post_left = translate_matrix(-6.258, -0.5, 0)
+const m_trans_post_left = translate_matrix(-4.5, -0.5, 0)
 left_post.applyMatrix4(m_trans_post_left)
 
 // create torus for the edge of the left goal post
@@ -102,7 +102,7 @@ const left_post_torus_material = new THREE.MeshBasicMaterial({ color: 0xffffff }
 const left_post_torus = new THREE.Mesh(left_post_torus_geometry, left_post_torus_material);
 const m_rotation_torus_left = rotation_matrix('x', Math.PI / 2);
 left_post_torus.applyMatrix4(m_rotation_torus_left);
-const m_trans_torus_left = translate_matrix(-6.258, -2, 0)
+const m_trans_torus_left = translate_matrix(-4.5, -2, 0)
 left_post_torus.applyMatrix4(m_trans_torus_left)
 
 // add posts to goal
@@ -114,7 +114,7 @@ const back_right_support_material = new THREE.MeshBasicMaterial({ color: 0xfffff
 const back_right_support = new THREE.Mesh(back_right_support_geometry, back_right_support_material);
 const m_back_right_rotation = rotation_matrix('x', Math.PI / 4);
 back_right_support.applyMatrix4(m_back_right_rotation);
-const m_back_right_trans = translate_matrix(6.258, -0.5, -1.5);
+const m_back_right_trans = translate_matrix(4.5, -0.5, -1.5);
 back_right_support.applyMatrix4(m_back_right_trans)
 
 // create torus for the edge of the back_right_support
@@ -123,7 +123,7 @@ const right_back_torus_material = new THREE.MeshBasicMaterial({ color: 0xffffff 
 const right_back_torus = new THREE.Mesh(right_back_torus_geometry, right_back_torus_material);
 const m_rotation_torus_back_right = rotation_matrix('x', Math.PI / 2);
 right_back_torus.applyMatrix4(m_rotation_torus_back_right);
-const m_trans_torus_back_right = translate_matrix(6.258, -2, -3);
+const m_trans_torus_back_right = translate_matrix(4.5, -2, -3);
 right_back_torus.applyMatrix4(m_trans_torus_back_right);
 
 // create back left support
@@ -132,7 +132,7 @@ const back_left_support_material = new THREE.MeshBasicMaterial({ color: 0xffffff
 const back_left_support = new THREE.Mesh(back_left_support_geometry, back_left_support_material);
 const m_back_left_rotation = rotation_matrix('x', Math.PI / 4);
 back_left_support.applyMatrix4(m_back_left_rotation);
-const m_back_left_trans = translate_matrix(-6.258, -0.5, -1.5);
+const m_back_left_trans = translate_matrix(-4.5, -0.5, -1.5);
 back_left_support.applyMatrix4(m_back_left_trans)
 
 // create torus for the edge of the back_right_support
@@ -141,14 +141,14 @@ const left_back_torus_material = new THREE.MeshBasicMaterial({ color: 0xffffff }
 const left_back_torus = new THREE.Mesh(left_back_torus_geometry, left_back_torus_material);
 const m_rotation_torus_back_left = rotation_matrix('x', Math.PI / 2);
 left_back_torus.applyMatrix4(m_rotation_torus_back_left);
-const m_trans_torus_back_left = translate_matrix(-6.258, -2, -3);
+const m_trans_torus_back_left = translate_matrix(-4.5, -2, -3);
 left_back_torus.applyMatrix4(m_trans_torus_back_left);
 
 // add back support
 goal.add(back_right_support, right_back_torus, back_left_support, left_back_torus)
 
 // create back net
-const back_net_Geometry = new THREE.PlaneGeometry(12.6, 4.2);
+const back_net_Geometry = new THREE.PlaneGeometry(9, 4.2);
 const back_net_Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3, side: THREE.DoubleSide});
 const back_net = new THREE.Mesh(back_net_Geometry, back_net_Material);
 const m_back_Net_rotation = rotation_matrix('x', Math.PI / 4)
@@ -168,7 +168,7 @@ const right_material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3 ,side: THRE
 const right_triangle = new THREE.Mesh(right_triangle_geometry, right_material);
 const m_rotation_triangle_right = rotation_matrix('y', -Math.PI / 2);
 right_triangle.applyMatrix4(m_rotation_triangle_right);
-const m_trans_triangle_right = translate_matrix(6.258, 0, -1);
+const m_trans_triangle_right = translate_matrix(4.5, 0, -1);
 right_triangle.applyMatrix4(m_trans_triangle_right);
 
 // create left side net
@@ -183,7 +183,7 @@ const left_material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3 ,side: THREE
 const left_triangle = new THREE.Mesh(left_triangle_geometry, left_material);
 const m_rotation_triangle_left = rotation_matrix('y', -Math.PI / 2);
 left_triangle.applyMatrix4(m_rotation_triangle_left);
-const m_trans_triangle_left = translate_matrix(-6.258, 0, -1);
+const m_trans_triangle_left = translate_matrix(-4.5, 0, -1);
 left_triangle.applyMatrix4(m_trans_triangle_left);
 
 goal.add(back_net, right_triangle, left_triangle);
