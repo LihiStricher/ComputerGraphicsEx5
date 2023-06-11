@@ -149,9 +149,14 @@ backNet.applyMatrix4(m_back_Net_trans)
 
 goal.add(backNet);
 
+// create ball
+const ballGeometry = new THREE.SphereGeometry( 3/16, 32, 32);
+const ballMaterial = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+const ball = new THREE.Mesh( ballGeometry, ballMaterial );
+
 // add goal to scene
 scene.add(goal)
-
+scene.add(ball);
 
 // This defines the initial distance of the camera
 const cameraTranslate = new THREE.Matrix4();
@@ -167,6 +172,12 @@ let isOrbitEnabled = true;
 const toggleOrbit = (e) => {
 	if (e.key == "o"){
 		isOrbitEnabled = !isOrbitEnabled;
+	}
+	if(e.key == "3"){
+		let scaleFactor = 0.5
+		goal.scale.x *= scaleFactor; // Scale the x-component
+		goal.scale.y *= scaleFactor; // Scale the y-component
+		goal.scale.z *= scaleFactor; // Scale the z-component
 	}
 }
 
