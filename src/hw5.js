@@ -193,7 +193,7 @@ const ballGeometry = new THREE.SphereGeometry(3/16, 32, 32);
 const ballMaterial = new THREE.MeshBasicMaterial({
 	color: 0x000000, wireframe: false,});
 const ball = new THREE.Mesh( ballGeometry, ballMaterial );
-const m_ball_trans = translate_matrix(0, -2, 0)
+const m_ball_trans = translate_matrix(0, -1, 2)
 ball.applyMatrix4(m_ball_trans)
 
 // add goal to scene
@@ -214,16 +214,13 @@ let isWireframe = false;
 let isFirstRotationEnabled = false;
 let isSecondRotationEnabled = false;
 let speedFactor = Math.PI / 64;
+let scaleFactor = 0.95;
 
 const toggleOrbit = (e) => {
 	if (e.key === "o"){
 		isOrbitEnabled = !isOrbitEnabled;
 	}
 	if(isOrbitEnabled){
-		if(e.key === "3"){
-			const m_scale = scale_matrix(0.9, 0.9 , 0.9);
-			goal.applyMatrix4(m_scale);
-		}
 		if (e.key === "w"){
 			isWireframe = !isWireframe
 			goal.children.forEach((object) => {
@@ -235,6 +232,10 @@ const toggleOrbit = (e) => {
 		}
 		if(e.key === "2"){
 			isSecondRotationEnabled = !isSecondRotationEnabled
+		}
+		if(e.key === "3"){
+			const m_scale = scale_matrix(scaleFactor, scaleFactor, scaleFactor);
+			goal.applyMatrix4(m_scale);
 		}
 		if(e.key === "ArrowUp") {
 			speedFactor += Math.PI / 64;
