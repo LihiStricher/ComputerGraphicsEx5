@@ -140,7 +140,7 @@ goal.add(back_right_support, right_back_torus, back_left_support, left_back_toru
 
 // create back net
 const netGeometry = new THREE.PlaneGeometry(5, 4.35);
-const netMaterial = new THREE.MeshBasicMaterial({ color: 0xD3D3D3, side: THREE.DoubleSide });
+const netMaterial = new THREE.MeshBasicMaterial({ color: 0xD3D3D3, side: THREE.DoubleSide, wireframe: false });
 const backNet = new THREE.Mesh(netGeometry, netMaterial);
 const m_back_Net_rotation = rotation_matrix('x', Math.PI / 4)
 backNet.applyMatrix4(m_back_Net_rotation)
@@ -151,7 +151,8 @@ goal.add(backNet);
 
 // create ball
 const ballGeometry = new THREE.SphereGeometry( 3/16, 32, 32);
-const ballMaterial = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+const ballMaterial = new THREE.MeshBasicMaterial({
+	color: 0x000000, wireframe: false,});
 const ball = new THREE.Mesh( ballGeometry, ballMaterial );
 
 // add goal to scene
@@ -168,16 +169,23 @@ renderer.render( scene, camera );
 const controls = new OrbitControls( camera, renderer.domElement );
 
 let isOrbitEnabled = true;
+let isWireframe = false
 
 const toggleOrbit = (e) => {
-	if (e.key == "o"){
+	if (e.key === "o"){
 		isOrbitEnabled = !isOrbitEnabled;
 	}
-	if(e.key == "3"){
+	if(e.key === "3" && isOrbitEnabled){
 		let scaleFactor = 0.5
 		goal.scale.x *= scaleFactor; // Scale the x-component
 		goal.scale.y *= scaleFactor; // Scale the y-component
 		goal.scale.z *= scaleFactor; // Scale the z-component
+	}
+	if (e.key === "w" && isOrbitEnabled){
+		isWireframe = !isWireframe
+		goal.children.forEach((object) => {
+			object.material.wireframe = isWireframe});
+		ballMaterial.wireframe = isWireframe;
 	}
 }
 
