@@ -193,8 +193,26 @@ const ballGeometry = new THREE.SphereGeometry(3/16, 32, 32);
 const ballMaterial = new THREE.MeshBasicMaterial({
 	color: 0x000000, wireframe: false,});
 const ball = new THREE.Mesh( ballGeometry, ballMaterial );
-const m_ball_trans = translate_matrix(0, -1, 2)
+const m_ball_trans = translate_matrix(0, -2, 2)
 ball.applyMatrix4(m_ball_trans)
+
+const loader = new THREE.ImageLoader();
+loader.load('goalkeeper.png', function (image) {
+		const texture = new THREE.Texture(image);
+		texture.needsUpdate = true;
+		const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, alpha: 0.5, side : THREE.DoubleSide });
+		const geometry = new THREE.PlaneGeometry(5, 3);
+		const mesh = new THREE.Mesh(geometry, material);
+		const m_goalkeeper_trans = translate_matrix(0, -1, 0.5)
+		mesh.applyMatrix4(m_goalkeeper_trans)
+		mesh.name = "goalkeeper"
+		scene.add(mesh);
+	},
+	undefined,
+	function () {
+		console.error('An error happened.');
+	}
+);
 
 // add goal to scene
 scene.add(goal)
@@ -245,10 +263,12 @@ let isOrbitEnabled = true;
 let isWireframe = false;
 let isFirstRotationEnabled = false;
 let isSecondRotationEnabled = false;
+let scaleForGoalkeeper = 1
 let speedFactor = Math.PI / 64;
 let scaleFactor = 0.95;
 
 const toggleOrbit = (e) => {
+	let goalkeeper = scene.getObjectByName('goalkeeper');
 	if (e.key === "o"){
 		isOrbitEnabled = !isOrbitEnabled;
 	}
@@ -274,6 +294,20 @@ const toggleOrbit = (e) => {
 		}
 		if(e.key === "ArrowDown") {
 			speedFactor -= Math.PI / 64;
+		}
+		if(e.key === "ArrowRight") {
+			if(goalkeeper.position.x < 3) {
+				scaleForGoalkeeper += 0.00005;
+				const m_goalkeeper_trans = translate_matrix(scaleForGoalkeeper, 0, 0)
+				goalkeeper.applyMatrix4(m_goalkeeper_trans)
+			}
+		}
+		if(e.key === "ArrowLeft") {
+			if(goalkeeper.position.x > -2) {
+				scaleForGoalkeeper -= 0.00005;
+				const m_goalkeeper_trans = translate_matrix(-scaleForGoalkeeper, 0, 0)
+				goalkeeper.applyMatrix4(m_goalkeeper_trans)
+			}
 		}
 	}
 }
