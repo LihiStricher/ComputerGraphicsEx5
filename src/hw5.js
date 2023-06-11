@@ -200,6 +200,38 @@ ball.applyMatrix4(m_ball_trans)
 scene.add(goal)
 scene.add(ball);
 
+// Load the font file
+const fontLoader = new THREE.FontLoader();
+fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+	// Create text geometry
+	const textGeometry = new THREE.TextGeometry('w - wireframe\no - orbit controls' +
+		'\nup/down - speed ball\n1/2 - trajectory ball\n3 - shrink goal' +
+		'\nright/left - move goalkeeper', {
+		font: font,
+		size: 0.17,
+		height: 0.1,
+		curveSegments: 0.8,
+		bevelEnabled: true,
+		bevelThickness: 1/100000,
+		bevelSize: 1/100000,
+		bevelOffset: 0.00001,
+	});
+
+	// Create material for the text
+	const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+	// Create mesh using the text geometry and material
+	const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+
+	textMesh.rotation.set(Math.PI / 6, 0, 0);
+	// Set the position and rotation of the text
+	textMesh.position.set(-1.5, 3, 0);
+
+	// Add the text mesh to the scene
+	scene.add(textMesh);
+});
+
+
 // This defines the initial distance of the camera
 const cameraTranslate = new THREE.Matrix4();
 cameraTranslate.makeTranslation(0,0,5);
