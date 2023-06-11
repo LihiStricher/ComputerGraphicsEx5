@@ -149,7 +149,7 @@ goal.add(back_right_support, right_back_torus, back_left_support, left_back_toru
 
 // create back net
 const back_net_Geometry = new THREE.PlaneGeometry(12.6, 4.2);
-const back_net_Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3, side: THREE.DoubleSide, wireframe: false });
+const back_net_Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3, side: THREE.DoubleSide});
 const back_net = new THREE.Mesh(back_net_Geometry, back_net_Material);
 const m_back_Net_rotation = rotation_matrix('x', Math.PI / 4)
 back_net.applyMatrix4(m_back_Net_rotation)
@@ -193,6 +193,8 @@ const ballGeometry = new THREE.SphereGeometry(3/16, 32, 32);
 const ballMaterial = new THREE.MeshBasicMaterial({
 	color: 0x000000, wireframe: false,});
 const ball = new THREE.Mesh( ballGeometry, ballMaterial );
+const m_ball_trans = translate_matrix(0, -2, 0)
+ball.applyMatrix4(m_ball_trans)
 
 // add goal to scene
 scene.add(goal)
@@ -208,21 +210,38 @@ renderer.render( scene, camera );
 const controls = new OrbitControls( camera, renderer.domElement );
 
 let isOrbitEnabled = true;
-let isWireframe = false
+let isWireframe = false;
+let isFirstRotationEnabled = false;
+let isSecondRotationEnabled = false;
+let speedFactor = Math.PI / 64;
 
 const toggleOrbit = (e) => {
 	if (e.key === "o"){
 		isOrbitEnabled = !isOrbitEnabled;
 	}
-	if(e.key === "3" && isOrbitEnabled){
-		const m_scale = scale_matrix(0.9, 0.9 , 0.9);
-		goal.applyMatrix4(m_scale);
-	}
-	if (e.key === "w" && isOrbitEnabled){
-		isWireframe = !isWireframe
-		goal.children.forEach((object) => {
-			object.material.wireframe = isWireframe});
-		ballMaterial.wireframe = isWireframe;
+	if(isOrbitEnabled){
+		if(e.key === "3"){
+			const m_scale = scale_matrix(0.9, 0.9 , 0.9);
+			goal.applyMatrix4(m_scale);
+		}
+		if (e.key === "w"){
+			isWireframe = !isWireframe
+			goal.children.forEach((object) => {
+				object.material.wireframe = isWireframe});
+			ballMaterial.wireframe = isWireframe;
+		}
+		if(e.key === "1"){
+			isFirstRotationEnabled = !isFirstRotationEnabled
+		}
+		if(e.key === "2"){
+			isSecondRotationEnabled = !isSecondRotationEnabled
+		}
+		if(e.key === "ArrowUp") {
+			speedFactor += Math.PI / 64;
+		}
+		if(e.key === "ArrowDown") {
+			speedFactor -= Math.PI / 64;
+		}
 	}
 }
 
@@ -236,6 +255,16 @@ function animate() {
 	requestAnimationFrame( animate );
 
 	controls.enabled = isOrbitEnabled;
+
+	if (isFirstRotationEnabled){
+		const m_ball_rotation = rotation_matrix('x', speedFactor)
+		ball.applyMatrix4(m_ball_rotation)
+	}
+	if (isSecondRotationEnabled){
+		const m_ball_rotation = rotation_matrix('y', speedFactor)
+		ball.applyMatrix4(m_ball_rotation)
+	}
+
 	controls.update();
 
 	renderer.render( scene, camera );
